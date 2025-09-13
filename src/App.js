@@ -1,12 +1,11 @@
 // src/App.js
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useCallback } from 'react';
 import './App.css';
 import { dishes as mockDishes } from './data/mockDishes';
 import Filters from './components/Filters';
 import DishList from './components/DishList';
 import IngredientModal from './components/IngredientModal';
 
-// Helper to distinguish modal type
 const MODAL_TYPE = {
   INGREDIENT: 'ingredient',
   READ_MORE: 'readmore',
@@ -15,35 +14,29 @@ const MODAL_TYPE = {
 function App() {
   const [selectedCategory, setSelectedCategory] = useState('MAIN COURSE');
   const [selectedDishes, setSelectedDishes] = useState([]);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [currentDish, setCurrentDish] = useState(null);
-  const [modalType, setModalType] = useState(null);
+  const [modalState, setModalState] = useState({ isOpen: false, dish: null, type: null });
 
-  // Count only selected dishes from MAIN COURSE
-  const mainCourseSelectedCount = selectedDishes.filter(dish => dish.mealType === 'MAIN COURSE').length;
+  const mainCourseSelectedCount = useMemo(() => {
+    return selectedDishes.filter(dish => dish.mealType === 'MAIN COURSE').length;
+  }, [selectedDishes]);
 
   const categories = ['STARTER', 'MAIN COURSE', 'DESSERT', 'SIDES'];
 
-  const handleAddDish = (dishToAdd) => {
-    setSelectedDishes((prevDishes) => [...prevDishes, dishToAdd]);
-  };
+  const handleAddDish = useCallback((dishToAdd) => {
+    setSelectedDishes(prev => [...prev, dishToAdd]);
+  }, []);
 
-  const handleRemoveDish = (dishToRemove) => {
-    setSelectedDishes((prevDishes) => prevDishes.filter((dish) => dish.id !== dishToRemove.id));
-  };
+  const handleRemoveDish = useCallback((dishToRemove) => {
+    setSelectedDishes(prev => prev.filter(dish => dish.id !== dishToRemove.id));
+  }, []);
 
-  // Called for both 'Read more' and 'Ingredient', pass type
-  const handleViewIngredients = (dish, type = MODAL_TYPE.INGREDIENT) => {
-    setCurrentDish(dish);
-    setModalType(type);
-    setIsModalOpen(true);
-  };
+  const openModal = useCallback((dish, type = MODAL_TYPE.INGREDIENT) => {
+    setModalState({ isOpen: true, dish, type });
+  }, []);
 
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-    setCurrentDish(null);
-    setModalType(null);
-  };
+  const closeModal = useCallback(() => {
+    setModalState({ isOpen: false, dish: null, type: null });
+  }, []);
 
   const filteredDishes = useMemo(() => {
     return mockDishes.filter(dish => dish.mealType === selectedCategory);
@@ -52,19 +45,17 @@ function App() {
   return (
     <div className="app-container">
       <header className="app-header">
-        <div className="search-bar" style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
+        <div className="search-bar">
           <img
             src="https://res.cloudinary.com/dgemrhu2h/image/upload/v1757686475/Group_1000007397_s73ggc.png"
             alt="Back"
             className="back-btn"
-            style={{ width: 24, height: 24, position: 'absolute', left: 8, cursor: 'pointer', zIndex: 2 }}
           />
-          <input type="text" placeholder="Search dish for your party...." style={{ flex: 1, paddingLeft: 40, paddingRight: 36 }} />
+          <input type="text" placeholder="Search dish for your party...." />
           <img
             src="https://res.cloudinary.com/dgemrhu2h/image/upload/v1757686237/fi_711319_zabqpt.png"
             alt="Search"
             className="search-icon"
-            style={{ width: 24, height: 24, position: 'absolute', right: 8, cursor: 'pointer' }}
           />
         </div>
       </header>
@@ -76,22 +67,11 @@ function App() {
           onCategoryChange={setSelectedCategory}
           selectedDishes={selectedDishes}
         />
-        {/* Main Courses Selected section below filters */}
-        <div style={{ display: 'flex', alignItems: 'center', margin: '12px 0', padding: '0 16px', justifyContent: 'space-between' }}>
-          <span style={{ fontWeight: 700, fontSize: 16, color: '#000' }}>
-            Main Courses Selected ({mainCourseSelectedCount})
-          </span>
-          <div style={{ display: 'flex', alignItems: 'center' }}>
-            <img
-              src="https://res.cloudinary.com/dgemrhu2h/image/upload/v1757687046/Frame_19480_fwki6v.png"
-              alt="Veg"
-              style={{ width: 24, height: 24, marginRight: 8 }}
-            />
-            <img
-              src="https://res.cloudinary.com/dgemrhu2h/image/upload/v1757687036/Frame_1000008679_m5xblc.png"
-              alt="Non Veg"
-              style={{ width: 24, height: 24 }}
-            />
+        <div className="main-course-header">
+          <span>Main Courses Selected ({mainCourseSelectedCount})</span>
+          <div className="veg-non-veg-icons">
+            <img src="https://res.cloudinary.com/dgemrhu2h/image/upload/v1757687046/Frame_19480_fwki6v.png" alt="Veg" />
+            <img src="https://res.cloudinary.com/dgemrhu2h/image/upload/v1757687036/Frame_1000008679_m5xblc.png" alt="Non Veg" />
           </div>
         </div>
         <DishList
@@ -99,23 +79,25 @@ function App() {
           onAddDish={handleAddDish}
           onRemoveDish={handleRemoveDish}
           selectedDishes={selectedDishes}
-          onViewIngredients={handleViewIngredients}
+          onViewIngredients={openModal}
         />
       </main>
 
       <footer className="app-footer">
-        <div className="total-dishes" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          <p style={{ margin: 0, padding: 15 }}>Total Dish Selected: {selectedDishes.length}</p>
-          <img
-            src="https://res.cloudinary.com/dgemrhu2h/image/upload/v1757746698/Group_1000007396_1_xrxy3u.png"
-            alt="Footer Icon"
-            style={{ height: 22, marginLeft: 8,padding: 15 }}
-          />
+        <div className="total-dishes-summary">
+          <p>Total Dish Selected: {selectedDishes.length}</p>
+          <img src="https://res.cloudinary.com/dgemrhu2h/image/upload/v1757746698/Group_1000007396_1_xrxy3u.png" alt="Footer Icon" />
         </div>
         <button className="continue-btn">Continue</button>
       </footer>
       
-  {isModalOpen && <IngredientModal dish={currentDish} onClose={handleCloseModal} modalType={modalType} />}
+      {modalState.isOpen && (
+        <IngredientModal
+          dish={modalState.dish}
+          onClose={closeModal}
+          modalType={modalState.type}
+        />
+      )}
     </div>
   );
 }

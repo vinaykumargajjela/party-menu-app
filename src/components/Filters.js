@@ -2,7 +2,7 @@
 import React from 'react';
 
 const Filters = ({ categories, selectedCategory, onCategoryChange, selectedDishes }) => {
-  const getCategoryCount = (category) => {
+  const getSelectedCountForCategory = (category) => {
     return selectedDishes.filter(dish => dish.mealType === category).length;
   };
 
@@ -14,7 +14,7 @@ const Filters = ({ categories, selectedCategory, onCategoryChange, selectedDishe
           className={`filter-btn ${selectedCategory === category ? 'active' : ''}`}
           onClick={() => onCategoryChange(category)}
         >
-          {category.charAt(0).toUpperCase() + category.slice(1).toLowerCase()} {getCategoryCount(category)}
+          {category.charAt(0).toUpperCase() + category.slice(1).toLowerCase()} {getSelectedCountForCategory(category)}
         </button>
       ))}
     </div>
