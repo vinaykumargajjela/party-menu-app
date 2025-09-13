@@ -1,70 +1,129 @@
-# Getting Started with Create React App
+# 🎉 Party Menu App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A modern and responsive web application that showcases a variety of party menu dishes.  
+Browse through different categories like **Main Course**, **Desserts**, **Sides**, and **Starters** with detailed descriptions, images, and ingredient lists.  
+Built using **React.js** with a clean component structure.
 
-## Available Scripts
+---
 
-In the project directory, you can run:
+## 🌟 Features
 
-### `npm start`
+- Display a list of dishes by category
+- View detailed dish information
+- Interactive ingredient modal popup
+- Filter dishes by type (VEG / NON-VEG)
+- Easy-to-read and responsive design
+- Mock data for demonstration
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+---
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## 📂 Project Folder Structure
 
-### `npm test`
+```plaintext
+party-menu-app/
+│
+├── public/
+│   └── index.html
+│
+├── src/
+│   ├── components/
+│   │   ├── DishCard.js
+│   │   ├── DishList.js
+│   │   ├── Filters.js
+│   │   └── IngredientModal.js
+│   │
+│   ├── data/
+│   │   └── mockDishes.js
+│   │
+│   ├── App.js
+│   └── index.js
+│
+├── .gitignore
+├── package.json
+├── package-lock.json
+├── README.md
+└── robots.txt
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```
+## 🛠️ Technologies Used
 
-### `npm run build`
+✅ React.js
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+✅ JavaScript (ES6+)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+✅ CSS
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+✅ npm (Node Package Manager)
 
-### `npm run eject`
+🚀 How to Run Locally
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Clone the repository:
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+git clone https://github.com/vinaykumargajjela/party-menu-app.git
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+Navigate to the project folder:
 
-## Learn More
+cd party-menu-app
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Install dependencies:
 
-### Code Splitting
+npm install
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
 
-### Analyzing the Bundle Size
+Run the development server:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+npm start
 
-### Making a Progressive Web App
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+Open your browser and visit:
 
-### Advanced Configuration
+http://localhost:3000
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+## 🌐 Live Demo
 
-### Deployment
+Check the app live here:
+🔗 https://party-menu-app-eight.vercel.app
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+## 📋 Sample Data
 
-### `npm run build` fails to minify
+The mock dishes are available in src/data/mockDishes.js.
+Each dish object contains:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+id
+
+name
+
+description
+
+image
+
+mealType (DESSERT, MAIN COURSE, SIDES, STARTER)
+
+type (VEG / NON-VEG)
+
+ingredients (name + quantity)
+
+## 📸 Preview: 
+
+
+<img width="408" height="1071" alt="Image" src="https://github.com/user-attachments/assets/6efe1b02-42c3-4a2d-bde1-2c14cf2bf31a" />
+
+
+## ✅ License
+
+This project is licensed under the MIT License.
+
+## 📧 Contact
+
+Author: Vinay Kumar Gajjela
+## 📧 Email: codewithvinay.dev@gmail.com
+
+## 🌐 LinkedIn: https://www.linkedin.com/in/codewithvinay/
+
+Made with ❤️ using React.js
+
+
+---
+
