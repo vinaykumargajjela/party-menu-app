@@ -17,11 +17,28 @@ function App() {
   const [modalState, setModalState] = useState({ isOpen: false, dish: null, type: null });
   const [searchQuery, setSearchQuery] = useState('');
 
-  const mainCourseSelectedCount = useMemo(() => {
-    return selectedDishes.filter(dish => dish.mealType === 'MAIN COURSE').length;
-  }, [selectedDishes]);
+  // Get selected count for the current category
+  const selectedCategoryCount = useMemo(() => {
+    return selectedDishes.filter(dish => dish.mealType === selectedCategory).length;
+  }, [selectedDishes, selectedCategory]);
 
   const categories = ['STARTER', 'MAIN COURSE', 'DESSERT', 'SIDES'];
+
+  // Helper to get display name for header (e.g., Dessert Selected)
+  const getCategoryHeader = (category) => {
+    switch (category) {
+      case 'STARTER':
+        return 'Starter Selected';
+      case 'MAIN COURSE':
+        return 'Main Course Selected';
+      case 'DESSERT':
+        return 'Dessert Selected';
+      case 'SIDES':
+        return 'Sides Selected';
+      default:
+        return '';
+    }
+  };
 
   const handleAddDish = useCallback((dishToAdd) => {
     setSelectedDishes(prev => [...prev, dishToAdd]);
@@ -79,7 +96,7 @@ function App() {
           selectedDishes={selectedDishes}
         />
         <div className="main-course-header">
-          <span>Main Courses Selected ({mainCourseSelectedCount})</span>
+          <span>{getCategoryHeader(selectedCategory)} ({selectedCategoryCount})</span>
           <div className="veg-non-veg-icons">
             <img src="https://res.cloudinary.com/dgemrhu2h/image/upload/v1757687046/Frame_19480_fwki6v.png" alt="Veg" />
             <img src="https://res.cloudinary.com/dgemrhu2h/image/upload/v1757687036/Frame_1000008679_m5xblc.png" alt="Non Veg" />
