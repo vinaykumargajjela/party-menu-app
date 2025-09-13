@@ -15,6 +15,7 @@ function App() {
   const [selectedCategory, setSelectedCategory] = useState('MAIN COURSE');
   const [selectedDishes, setSelectedDishes] = useState([]);
   const [modalState, setModalState] = useState({ isOpen: false, dish: null, type: null });
+  const [searchQuery, setSearchQuery] = useState('');
 
   const mainCourseSelectedCount = useMemo(() => {
     return selectedDishes.filter(dish => dish.mealType === 'MAIN COURSE').length;
@@ -38,9 +39,14 @@ function App() {
     setModalState({ isOpen: false, dish: null, type: null });
   }, []);
 
+  // Filter dishes by selected category and search query (case-insensitive)
   const filteredDishes = useMemo(() => {
-    return mockDishes.filter(dish => dish.mealType === selectedCategory);
-  }, [selectedCategory]);
+    return mockDishes
+      .filter(dish => dish.mealType === selectedCategory)
+      .filter(dish =>
+        dish.name.toLowerCase().includes(searchQuery.trim().toLowerCase())
+      );
+  }, [selectedCategory, searchQuery]);
 
   return (
     <div className="app-container">
@@ -51,7 +57,12 @@ function App() {
             alt="Back"
             className="back-btn"
           />
-          <input type="text" placeholder="Search dish for your party...." />
+          <input
+            type="text"
+            placeholder="Search dish for your party...."
+            value={searchQuery}
+            onChange={e => setSearchQuery(e.target.value)}
+          />
           <img
             src="https://res.cloudinary.com/dgemrhu2h/image/upload/v1757686237/fi_711319_zabqpt.png"
             alt="Search"
